@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = function (){
+            const video = document.querySelector("video")
+            const track = document.querySelector("#track")
+            const play = document.querySelector("#play")
+            const ontn = document.querySelector("#pause")
+            const full = document.querySelector("#full")
+            const valume_raise = document.querySelector("#valume_raise")
+            const valume_reduce = document.querySelector("#valume_reduce")
+            const tatlTime = document.querySelector("#tatlTime")
+            const currentTime = document.querySelector("#currentTime")
+            const meted = document.querySelector("#meted")
+            const range = document.querySelector("#range")
+            const loadtitiles = document.querySelector("#loadtitiles")
+            const file = document.querySelector("#subtitiles")
+
+            play.onclick =(e)=>{
+                video.play()
+            }
+            ontn.onclick =(e)=>{
+                video.pause()
+            }
+            full.onclick =(e)=>{
+                video.webkitRequestFullScreen()
+                video.webkitRequestCancelScreen()
+            }
+            valume_raise.onclick =(e)=>{
+                video.volume +=0.1
+            }
+            valume_reduce.onclick =(e)=>{
+                video.volume -=0.1
+            }
+            loadtitiles.onclick =(e)=>{
+                // console.log(file.files[0])
+                const reader = new FileReader()
+                reader.readAsDataURL(file.files[0]) //读取file，将其转换成一个url
+                console.log(file.files[0])
+                reader.onload = function(){//当读取完成
+                    track.setAttribute("src",reader.result) //设置track的属性src为读取的结果
+                }
+                console.log(track)
+            }
+
+            video.ontimeUpdate =(e)=>{
+                currentTime.innerHTML() = video.currentTime
+                range.value = video.currentTime
+            }
+
+            video.onloadedmatadata =(e)=>{
+                tatlTime.innerHTML() = video.duration
+            }
+            meted.onclick=(e)=>{
+                video.muted?video.muted=false:video.muted=true
+            }
+            range.onchange=(e)=>{
+              video.currentTime = range.value
+            }
+
+        }
+
+    </script>
+</head>
+<body>
+    <!-- <a href="sms:18725980905">sms</a>
+    <a href="tel:18725980905">打电话</a>
+    <a href="emailto:1501911202@qq.com">邮件</a> -->
+
+    <video poster="vode/1.jpg" width="500" height="300" controls>
+        <source src="vode/iceage4.mp4" type="video/mp4"/>
+        <source src="vode/iceage4.webm" type="video/webm"/>
+        <track kind="subtitles" srclang="en" default id="track"/>
+    </video>
+
+    <div>
+        <button id="play">播放</button>
+        <button id="pause">暂停</button>
+        <button id="full">全屏</button>
+        <button id="valume_raise">+</button>
+        <button id="valume_reduce">-</button>
+        <samp id="tatlTime"></samp>
+        <samp id="currentTime"></samp>
+        <button id="meted">静音</button>
+        <input type="range" id="range" max="28" min="0"/>
+        <button id="loadtitiles">加载字幕</button>
+        <input type="file" id="subtitiles">
+    </div>
+    <audio src="vode/fcml.mp3" controls></audio>
+</body>
+</html>
